@@ -3,11 +3,42 @@
     "myAndrewId":"<andrewId>",
     "websites":[
         {
-            "title":"<title of the page>",
-            "url":"<url>",
-            "code":"<in which code you use the snippet or the idea>",
-            "description":"<additional information you find it necessary to provide>"
+            "title":"Handler Input/Output Types (Java)",
+            "url":"https://docs.aws.amazon.com/lambda/latest/dg/java-programming-model-req-resp.html",
+            "code":"Used in processing a json input and producing json output",
+            "description":"Used in processing a json input and producing json output"
+        },
+        {
+            "title":"Lambda Function Handler (Java))",
+            "url":"https://docs.aws.amazon.com/lambda/latest/dg/java-programming-model-handler-types.html",
+            "code":"Used in processing a json input and producing json output",
+            "description":"Used in processing a json input and producing json output"
+        },
+        {
+            "title":"Leveraging Predefined Interfaces for Creating Handler (Java)",
+            "url":"https://docs.aws.amazon.com/lambda/latest/dg/java-handler-using-predefined-interfaces.html",
+            "code":"Used in processing a json input and producing json output",
+            "description":"Used in processing a json input and producing json output"
+        },
+        {
+            "title":"Apache Maven Shade Plugin",
+            "url":"https://maven.apache.org/plugins/maven-shade-plugin/",
+            "code":"Used in creating a single shaded jar with all the dependencies included",
+            "description":"Used in creating a single shaded jar with all the dependencies included"
+        },
+        {
+            "title":Class SubnetUtils",
+            "url":"https://commons.apache.org/proper/commons-net/apidocs/org/apache/commons/net/util/SubnetUtils.html",
+            "code":"Used in querying the CIDR to find subnet details",
+            "description":"Used in querying the CIDR to find subnet details"
+        },
+        {
+            "title":"How do you pass JSON to a Java method?",
+            "url":"https://forums.aws.amazon.com/thread.jspa?threadID=205181",
+            "code":"Used in processing a json input and producing json output",
+            "description":"Used in processing a json input and producing json output"
         }
+
     ],
     "collaborators":[
         {
