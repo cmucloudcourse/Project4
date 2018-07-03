@@ -1,0 +1,35 @@
+{
+  "name": "CloudTube",
+  "version": "1.0.0",
+  "description": "Demo App for Cloud Computing Course P2.3 (Functions as a Service)",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node server.js",
+    "build": "next build",
+    "start": "NODE_ENV=production node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prettier": "prettier --write --no-semi --single-quote --trailing-comma es5 \"{__tests__,components,hoc,pages,stores,utils}/**/*.{js,jsx}\"",
+    "prettier:check": "prettier --list-different --no-semi --single-quote --trailing-comma es5 \"{__tests__,components,hoc,pages,stores,utils}/**/*.{js,jsx}\""
+  },
+  "dependencies": {
+    "axios": "^0.17.1",
+    "express": "^4.16.2",
+    "next": "latest",
+    "next-routes": "^1.2.0",
+    "node-sass": "4.5.3",
+    "prop-types": "^15.5.10",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-hover-observer": "^2.1.0",
+    "react-no-ssr": "^1.1.0",
+    "react-s3-uploader": "^4.6.2",
+    "redux": "^3.7.2",
+    "semantic-ui-react": "^0.70.0",
+    "styled-jsx": "^2.2.1",
+    "styled-jsx-plugin-sass": "0.2.0",
+    "video-react": "^0.9.4",
+    "xml-parse": "^0.3.1"
+  },
+  "author": "clarencenpy",
+  "license": "ISC"
+}

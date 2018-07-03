@@ -1,0 +1,197 @@
+body {
+    height: auto !important;
+    font-family: 'Roboto', sans-serif !important;
+    background: #0a0a0a !important;
+    color: #ddd !important;
+}
+.clickable {
+    cursor: pointer;
+}
+.video-react .video-react-big-play-button {
+    visibility: hidden;
+}
+.video-react * {
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 300;
+    font-size: 12px;
+}
+header.youtube .ui.menu.inverted {
+    background: #222 !important;
+}
+header.youtube .ui.menu .item {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+header.youtube .ui.menu .item i.content.icon {
+    margin: 0 !important;
+}
+header.youtube .ui.menu .item .ui.action.input .button {
+    background: #343434 !important;
+    width: 5em;
+    color: grey !important;
+}
+header.youtube .ui.menu .item .ui.action.input .button:hover {
+    color: #ddd !important;
+}
+header.youtube .ui.menu .item .ui.action.input .button .icon {
+    margin-left: 15px !important;
+}
+header.youtube .ui.input input[type='text'] {
+    background: #171717 !important;
+    color: #a6a6a6 !important;
+    width: 15em;
+    transition: width 0.4s ease-in-out !important;
+}
+header.youtube .ui.input input[type='text']:focus {
+    color: #a6a6a6 !important;
+    width: 20em;
+}
+.main-container {
+    margin-top: 5em;
+}
+.video-container {
+    padding-top: 30px;
+    margin-bottom: 30px;
+}
+.video-container .ranking {
+    margin-bottom: 0;
+    color: #aaa;
+}
+.video-container .title {
+    margin-top: 5px;
+    font-size: 21px;
+    color: #eee;
+}
+.video-container .views {
+    font-size: 17px;
+    color: #aaa;
+}
+.video-container .search-labels {
+    margin-top: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: #2a2a2a solid 1px;
+}
+.video-container .search-labels .title {
+    font-size: 18px;
+}
+.video-container .thumbnail-container {
+    display: inline-block;
+    height: 60px;
+    width: 100px;
+    position: relative;
+    cursor: pointer;
+}
+.video-container .thumbnail-container img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+.video-container .thumbnail-container .overlay {
+    transition: all 0.5s;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    line-height: 60px;
+    font-size: 20px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0);
+    color: rgba(0, 0, 0, 0);
+}
+.video-container .thumbnail-container .overlay:hover {
+    background: rgba(0, 0, 0, 0.6);
+    color: whitesmoke;
+}
+.upload-container .file-input {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+.upload-container .file-input + label {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: whitesmoke;
+    width: 100%;
+    height: 63px;
+    text-align: center;
+    background-color: #db4c4c;
+    display: inline-block;
+    padding: 16px;
+    border-radius: 3px;
+    line-height: 32px;
+}
+.upload-container .file-input:focus + label, .upload-container .file-input + label:hover {
+    background-color: #db3c3b;
+}
+.upload-container .upload-status {
+    margin-top: 50px;
+}
+.gallery-container {
+    padding-top: 30px;
+}
+.gallery-container .placeholder {
+    margin-left: 20px;
+}
+.gallery-container .section-container {
+    margin-bottom: 30px;
+}
+.gallery-container .section-container .section-header {
+    color: whitesmoke;
+    font-weight: 500;
+    padding-left: 5px;
+    font-size: 1.2em;
+}
+.gallery-container .section-container .ui.grid > .row > .column {
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-bottom: 10px;
+}
+.gallery-container .section-container .video-item:hover {
+    cursor: pointer;
+}
+.gallery-container .section-container .video-item .content-container {
+    margin-bottom: 8px;
+    background: no-repeat 50% 50%;
+    background-size: cover;
+}
+@media only screen and (min-width: 768px) {
+    .gallery-container .section-container .video-item .content-container {
+        height: 120px;
+    }
+}
+@media only screen and (max-width: 767px) {
+    .gallery-container .section-container .video-item .content-container {
+        height: 320px;
+    }
+}
+.gallery-container .section-container .video-item .title {
+    color: whitesmoke;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow: hidden;
+    width: 90%;
+    max-height: 36px;
+    line-height: 18px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.gallery-container .section-container .video-item .channel {
+    color: #818486;
+    margin-bottom: 0;
+}
+.gallery-container .section-container .video-item .channel:hover {
+    color: #c8c8c8;
+}
+.gallery-container .section-container .video-item .caption {
+    color: #818486;
+}
+.gallery-container .section-container .video-item .caption:hover {
+    color: #c8c8c8;
+}
+
