@@ -1,0 +1,118 @@
+package edu.cmu.cs.cloud.samples.serverless.aws;
+
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.LambdaLogger;
+import com.amazonaws.services.lambda.runtime.LambdaRuntime;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.amazonaws.services.lambda.runtime.events.SNSEvent;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.event.S3EventNotification;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.transfer.Download;
+import com.amazonaws.services.s3.transfer.Transfer;
+import com.amazonaws.services.s3.transfer.TransferManager;
+import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+
+public class HelloLambda implements RequestHandler<SNSEvent, String> {
+
+    private static LambdaLogger lambdaLogger = LambdaRuntime.getLogger();
+
+    @Override
+    public String handleRequest(SNSEvent event, Context context) {
+        String s3json = event.getRecords().get(0).getSNS().getMessage();
+        lambdaLogger.log(s3json);
+
+        S3EventNotification s3EventNotification = S3EventNotification.parseJson(s3json);;
+
+        S3EventNotification.S3EventNotificationRecord record = s3EventNotification.getRecords().get(0);
+
+        lambdaLogger.log("Starting SNS Event Parsing"+"\n");
+        lambdaLogger.log("Source Bucket Name is  "+record.getS3().getBucket().getName()+"\n");
+        lambdaLogger.log("Source Bucket ARN is  "+record.getS3().getBucket().getArn()+"\n");
+        lambdaLogger.log("Source Bucket Object Key is  "+record.getS3().getObject().getKey()+"\n");
+        lambdaLogger.log("Source Bucket URL DECODED Object Key is  "+record.getS3().getObject().getUrlDecodedKey()+"\n");
+
+        String srcBucketName = record.getS3().getBucket().getName();
+        String srcKey = record.getS3().getObject().getUrlDecodedKey();
+//        String destBucketName = "project4-thumbnail-bucket";
+//        String destKey = record.getS3().getObject().getUrlDecodedKey()+"-copied";
+
+        AmazonS3 s3Client = new AmazonS3Client();
+        S3Object s3Object = s3Client.getObject(srcBucketName,srcKey);
+
+        downloadFile(srcBucketName,srcKey,"/tmp/task2/video-"+srcKey);
+
+        executeBashCommand("ls -ltr /tmp/task2/");
+
+        String ffmpegcommand = "ffmpeg -i video-"+srcKey+" -y -vf fps=1 video_%d.png";
+        executeBashCommand(ffmpegcommand);
+
+        return "ok";
+    }
+
+    public static void downloadFile(String src_bucket_name, String src_key_name,
+                                    String file_path)
+    {
+
+        File f = new File(file_path);
+        TransferManager xfer_mgr = TransferManagerBuilder.standard().build();
+        try {
+            Download xfer = xfer_mgr.download(src_bucket_name, src_key_name, f);
+            // or block with Transfer.waitForCompletion()
+            waitForCompletion(xfer);
+        } catch (AmazonServiceException e) {
+            System.err.println(e.getErrorMessage());
+            System.exit(1);
+        }
+        xfer_mgr.shutdownNow();
+    }
+
+    private static void waitForCompletion(Transfer xfer)
+    {
+        try {
+            xfer.waitForCompletion();
+        } catch (AmazonServiceException e) {
+            System.err.println("Amazon service error: " + e.getMessage());
+            System.exit(1);
+        } catch (AmazonClientException e) {
+            System.err.println("Amazon client error: " + e.getMessage());
+            System.exit(1);
+        } catch (InterruptedException e) {
+            System.err.println("Transfer interrupted: " + e.getMessage());
+            System.exit(1);
+        }
+    }
+
+    public static void executeBashCommand(String command, String ... params){
+            StringBuffer output = new StringBuffer();
+            try{
+                Process p = Runtime.getRuntime().exec(command);
+                p.waitFor();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                String line = "";
+                while ((line = bufferedReader.readLine())!= null) {
+                    output.append(line + "\n");
+                }
+
+                lambdaLogger.log("Output of command "+command+" is : "+output);
+
+            } catch (IOException e) {
+                lambdaLogger.log("Exception while executing the command "+ e.getStackTrace());
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                lambdaLogger.log("Exception while executing the command "+ e);
+            }finally {
+            }
+
+    }
+
+}
