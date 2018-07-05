@@ -84,14 +84,15 @@ public class HelloLambda implements RequestHandler<SNSEvent, String> {
     {
         try {
             xfer.waitForCompletion();
+            Thread.sleep(5000);
         } catch (AmazonServiceException e) {
-            System.err.println("Amazon service error: " + e.getMessage());
+            lambdaLogger.log("Amazon service error: " + e.getMessage());
             System.exit(1);
         } catch (AmazonClientException e) {
-            System.err.println("Amazon client error: " + e.getMessage());
+            lambdaLogger.log("Amazon client error: " + e.getMessage());
             System.exit(1);
         } catch (InterruptedException e) {
-            System.err.println("Transfer interrupted: " + e.getMessage());
+            lambdaLogger.log("Transfer interrupted: " + e.getMessage());
             System.exit(1);
         }
     }
@@ -131,7 +132,7 @@ public class HelloLambda implements RequestHandler<SNSEvent, String> {
             // or block with Transfer.waitForCompletion()
            waitForCompletion(xfer);
         } catch (AmazonServiceException e) {
-            System.err.println(e.getErrorMessage());
+            lambdaLogger.log(e.getErrorMessage());
             System.exit(1);
         }
         xfer_mgr.shutdownNow();
