@@ -17,7 +17,6 @@ public class HelloLambdaTest {
     @Test
     public void testDownload(){
         Context context = mock(Context.class);
-
         HelloLambda.downloadFile("project4-video-input-bucket","README.md","/tmp/task2/README-PROG");
     }
 
@@ -26,5 +25,17 @@ public class HelloLambdaTest {
         HelloLambda.executeBashCommand("ls -ltr /tmp/task2/");
         String ffmpegcommand = "/Users/Manas/Downloads/ffmpeg -i /tmp/task2/README-PROG"+" -y -vf fps=1 video_%d.png";
         HelloLambda.executeBashCommand(ffmpegcommand);
+    }
+
+    @Test
+    public void testUpload(){
+        Context context = mock(Context.class);
+        HelloLambda.uploadDir("/Users/Manas/Cloud_course/aws/Lambda/result/","project4-thumbnail-bucket");
+    }
+
+    @Test
+    public void testFileNamesplit(){
+        String key = "dancing_16.mov";
+        System.out.println(key.split("\\.")[0]);
     }
 }

@@ -11,10 +11,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.event.S3EventNotification;
 import com.amazonaws.services.s3.model.S3Object;
-import com.amazonaws.services.s3.transfer.Download;
-import com.amazonaws.services.s3.transfer.Transfer;
-import com.amazonaws.services.s3.transfer.TransferManager;
-import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
+import com.amazonaws.services.s3.transfer.*;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -43,19 +40,23 @@ public class HelloLambda implements RequestHandler<SNSEvent, String> {
 
         String srcBucketName = record.getS3().getBucket().getName();
         String srcKey = record.getS3().getObject().getUrlDecodedKey();
-//        String destBucketName = "project4-thumbnail-bucket";
+        String destBucketName = "project4-thumbnail-bucket";
 //        String destKey = record.getS3().getObject().getUrlDecodedKey()+"-copied";
 
         AmazonS3 s3Client = new AmazonS3Client();
         S3Object s3Object = s3Client.getObject(srcBucketName,srcKey);
 
-        downloadFile(srcBucketName,srcKey,"/tmp/task2/video-"+srcKey);
+        downloadFile(srcBucketName,srcKey,"/tmp/task2/"+srcKey);
 
+
+        executeBashCommand("cp /var/task/ffmpeg /tmp/");
+        executeBashCommand("chmod 755 /tmp/ffmpeg");
+        executeBashCommand("mkdir -p /tmp/task2/result");
         executeBashCommand("ls -ltr /tmp/task2/");
-
-        String ffmpegcommand = "ffmpeg -i video-"+srcKey+" -y -vf fps=1 video_%d.png";
+        String ffmpegcommand = "/tmp/ffmpeg -i /tmp/task2/"+srcKey+" -y -vf fps=1 /tmp/task2/result/"+srcKey.split("\\.")[0]+"_%d.png";
         executeBashCommand(ffmpegcommand);
-
+        executeBashCommand("ls -ltr /tmp/task2/result/");
+        uploadDir("/tmp/task2/result",destBucketName);
         return "ok";
     }
 
@@ -113,6 +114,24 @@ public class HelloLambda implements RequestHandler<SNSEvent, String> {
             }finally {
             }
 
+    }
+
+
+    public static void uploadDir(String dir_path, String bucket_name)
+    {
+
+        TransferManager xfer_mgr = TransferManagerBuilder.standard().build();
+        try {
+            MultipleFileUpload xfer = xfer_mgr.uploadDirectory(bucket_name,
+                    null, new File(dir_path), false);
+            // loop with Transfer.isDone()
+            // or block with Transfer.waitForCompletion()
+           waitForCompletion(xfer);
+        } catch (AmazonServiceException e) {
+            System.err.println(e.getErrorMessage());
+            System.exit(1);
+        }
+        xfer_mgr.shutdownNow();
     }
 
 }

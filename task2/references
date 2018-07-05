@@ -49,8 +49,19 @@
             "url":"https://docs.aws.amazon.com/lambda/latest/dg/limits.html",
             "code":"Used to find the limits of resources in  Lamda execution environment",
             "description":"Used to find the limits of resources in  Lamda execution environment"
+        },
+        {
+            "title":"aws-doc-sdk-examples",
+            "url":"https://github.com/awsdocs/aws-doc-sdk-examples/blob/master/java/example_code/s3/src/main/java/aws/example/s3/XferMgrDownload.java",
+            "code":"Used to download a file from S3 bucket to the local file system",
+            "description":"Used to download a file from S3 bucket to the local file system"
+        },
+        {
+            "title":"aws-doc-sdk-examples",
+            "url":"https://github.com/awsdocs/aws-doc-sdk-examples/blob/master/java/example_code/s3/src/main/java/aws/example/s3/XferMgrUpload.java"
+            "code":"Used to upload a file from local file system to S3 bucket",
+            "description":"Used to upload a file from local file system to S3 bucket"
         }
-
     ],
     "collaborators":[
         {
