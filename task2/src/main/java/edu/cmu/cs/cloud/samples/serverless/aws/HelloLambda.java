@@ -29,7 +29,8 @@ public class HelloLambda implements RequestHandler<SNSEvent, String> {
 
 
         String destBucketName = "project4-thumbnail-bucket";
-
+        lambdaLogger.log("Starting SNS Event Parsing" + "\n");
+        lambdaLogger.log(event.getRecords().toString());
         for (SNSEvent.SNSRecord snsRecord:   event.getRecords()) {
             String s3json = snsRecord.getSNS().getMessage();
             lambdaLogger.log(s3json);
@@ -37,7 +38,6 @@ public class HelloLambda implements RequestHandler<SNSEvent, String> {
 
             for (S3EventNotification.S3EventNotificationRecord record : s3EventNotification.getRecords()) {
 
-                lambdaLogger.log("Starting SNS Event Parsing" + "\n");
                 lambdaLogger.log("Source Bucket Name is  " + record.getS3().getBucket().getName() + "\n");
                 lambdaLogger.log("Source Bucket ARN is  " + record.getS3().getBucket().getArn() + "\n");
                 lambdaLogger.log("Source Bucket Object Key is  " + record.getS3().getObject().getKey() + "\n");
