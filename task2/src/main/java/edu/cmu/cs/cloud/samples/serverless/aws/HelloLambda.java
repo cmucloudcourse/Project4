@@ -25,36 +25,40 @@ public class HelloLambda implements RequestHandler<SNSEvent, String> {
 
     @Override
     public String handleRequest(SNSEvent event, Context context) {
-        String s3json = event.getRecords().get(0).getSNS().getMessage();
-        lambdaLogger.log(s3json);
+
+
 
         String destBucketName = "project4-thumbnail-bucket";
 
-        S3EventNotification s3EventNotification = S3EventNotification.parseJson(s3json);;
+        for (SNSEvent.SNSRecord snsRecord:   event.getRecords()) {
+            String s3json = snsRecord.getSNS().getMessage();
+            lambdaLogger.log(s3json);
+            S3EventNotification s3EventNotification = S3EventNotification.parseJson(s3json);
 
-        for (S3EventNotification.S3EventNotificationRecord record : s3EventNotification.getRecords()) {
+            for (S3EventNotification.S3EventNotificationRecord record : s3EventNotification.getRecords()) {
 
-            lambdaLogger.log("Starting SNS Event Parsing"+"\n");
-            lambdaLogger.log("Source Bucket Name is  "+record.getS3().getBucket().getName()+"\n");
-            lambdaLogger.log("Source Bucket ARN is  "+record.getS3().getBucket().getArn()+"\n");
-            lambdaLogger.log("Source Bucket Object Key is  "+record.getS3().getObject().getKey()+"\n");
-            lambdaLogger.log("Source Bucket URL DECODED Object Key is  "+record.getS3().getObject().getUrlDecodedKey()+"\n");
+                lambdaLogger.log("Starting SNS Event Parsing" + "\n");
+                lambdaLogger.log("Source Bucket Name is  " + record.getS3().getBucket().getName() + "\n");
+                lambdaLogger.log("Source Bucket ARN is  " + record.getS3().getBucket().getArn() + "\n");
+                lambdaLogger.log("Source Bucket Object Key is  " + record.getS3().getObject().getKey() + "\n");
+                lambdaLogger.log("Source Bucket URL DECODED Object Key is  " + record.getS3().getObject().getUrlDecodedKey() + "\n");
 
-            String srcBucketName = record.getS3().getBucket().getName();
-            String srcKey = record.getS3().getObject().getUrlDecodedKey();
+                String srcBucketName = record.getS3().getBucket().getName();
+                String srcKey = record.getS3().getObject().getUrlDecodedKey();
 
-            AmazonS3 s3Client = new AmazonS3Client();
-            S3Object s3Object = s3Client.getObject(srcBucketName,srcKey);
+                AmazonS3 s3Client = new AmazonS3Client();
+                S3Object s3Object = s3Client.getObject(srcBucketName, srcKey);
 
-            downloadFile(srcBucketName,srcKey,"/tmp/task2/"+srcKey);
+                downloadFile(srcBucketName, srcKey, "/tmp/task2/" + srcKey);
 
 
-            executeBashCommand("cp /var/task/ffmpeg /tmp/");
-            executeBashCommand("chmod 755 /tmp/ffmpeg");
-            executeBashCommand("mkdir -p /tmp/task2/result");
-            executeBashCommand("ls -ltr /tmp/task2/");
-            String ffmpegcommand = "/tmp/ffmpeg -i /tmp/task2/"+srcKey+" -y -vf fps=1 /tmp/task2/result/"+srcKey.split("\\.")[0]+"_%d.png";
-            executeBashCommand(ffmpegcommand);
+                executeBashCommand("cp /var/task/ffmpeg /tmp/");
+                executeBashCommand("chmod 755 /tmp/ffmpeg");
+                executeBashCommand("mkdir -p /tmp/task2/result");
+                executeBashCommand("ls -ltr /tmp/task2/");
+                String ffmpegcommand = "/tmp/ffmpeg -i /tmp/task2/" + srcKey + " -y -vf fps=1 /tmp/task2/result/" + srcKey.split("\\.")[0] + "_%d.png";
+                executeBashCommand(ffmpegcommand);
+            }
         }
 
         executeBashCommand("ls -ltr /tmp/task2/result/");
@@ -84,7 +88,7 @@ public class HelloLambda implements RequestHandler<SNSEvent, String> {
     {
         try {
             xfer.waitForCompletion();
-            Thread.sleep(5000);
+//            Thread.sleep(5000);
         } catch (AmazonServiceException e) {
             lambdaLogger.log("Amazon service error: " + e.getMessage());
             System.exit(1);
