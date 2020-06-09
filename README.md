@@ -13,7 +13,7 @@ $ aws lambda invoke --function-name cidrStats --payload '{"cidrSignature": "172.
    "cidrSignature": "172.10.242.81/12",
    "firstAddress": "172.0.0.0",
    "lastAddress": "172.15.255.255",
-   "addressCount": 1048576
+   "addressCount": 100
  }
  
  
