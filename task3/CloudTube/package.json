@@ -12,7 +12,7 @@
     "prettier:check": "prettier --list-different --no-semi --single-quote --trailing-comma es5 \"{__tests__,components,hoc,pages,stores,utils}/**/*.{js,jsx}\""
   },
   "dependencies": {
-    "axios": "^0.17.1",
+    "axios": "^0.21.1",
     "express": "^4.16.2",
     "next": "latest",
     "next-routes": "^1.2.0",
