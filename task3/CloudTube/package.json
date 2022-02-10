@@ -16,7 +16,7 @@
     "express": "^4.16.2",
     "next": "latest",
     "next-routes": "^1.2.0",
-    "node-sass": "4.5.3",
+    "node-sass": "7.0.0",
     "prop-types": "^15.5.10",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
